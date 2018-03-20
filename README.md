@@ -11,7 +11,7 @@ For everyone else, users will be able to manage what location/tier they are in t
 are upcoming, both office events and recent calls. From here you will be able to sign up
 or create suggestions for future events.
 
-##Contribution
+## Contribution
 This is a react application. If you are interested in contributing code, feel free to fork
 and create a pull request or reach out to me at dferoli@redhat.com
 

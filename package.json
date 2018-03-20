@@ -1,0 +1,35 @@
+{
+  "name": "primores",
+  "version": "0.1.0",
+  "description": "Event Management",
+  "main": "index.js",
+  "scripts": {
+    "start": "env NODE_PATH=. node index.js",
+    "test": "npm run-script lint",
+    "lint": "eslint api/**/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daferoli/primores.git"
+  },
+  "author": "David Feroli",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/daferoli/primores/issues"
+  },
+  "dependencies": {
+    "bluebird": "^3.5.1",
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "express": "^4.16.2",
+    "express-joi-validation": "^0.2.1",
+    "joi": "^13.1.2",
+    "mongodb": "2.2",
+    "ramda": "^0.25.0",
+    "uuid": "^3.2.1"
+  },
+  "homepage": "https://github.com/daferoli/primores#readme",
+  "devDependencies": {
+    "eslint": "^4.19.0"
+  }
+}
