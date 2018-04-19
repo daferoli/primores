@@ -8,7 +8,7 @@ const uuid = require('uuid/v4');
 exports.createEvent = function(eventData) {
   eventData.uid = uuid();
 
-  return eventsDao.updateEvent({
+  return eventsDao.upsertEvent({
     uid: eventData.uid
   }, eventData);
 };
@@ -27,7 +27,7 @@ exports.getEvents = function(uids) {
  * Updates a single event
  */
 exports.updateEvent = function(uid, eventData) {
-  return eventsDao.updateEvent({
+  return eventsDao.upsertEvent({
     uid: uid
   }, {
     $set: eventData

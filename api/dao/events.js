@@ -15,7 +15,7 @@ exports.getEventsForQuery = function (query) {
   .then((cursor) => cursor.toArray());
 };
 
-exports.updateEvent = function (query, event, opts) {
+exports.upsertEvent = function (query, event, opts) {
   const options = opts || {
     upsert: true,
     new: true
