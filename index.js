@@ -3,6 +3,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
 app.use(cors());
@@ -15,9 +16,12 @@ app.use(function(req, res, next) {
     next();
 });
 
-app.use(bodyParser.json());
+const indexPath = path.join(__dirname, 'www/app/index.html');
+const publicPath = express.static(path.join(__dirname, '../dist'));
 
-app.use('/', express.static('www/app'));
+app.use('/dist', publicPath);
+app.get('/', function (_, res) { res.sendFile(indexPath) });
+app.use(bodyParser.json());
 
 app.use('/api', require('api/routes/index'));
 

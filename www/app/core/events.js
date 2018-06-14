@@ -1,36 +1,35 @@
-import falcorService from '../core/falcor';
 import _ from 'lodash';
 import moment from 'moment';
+import {request} from './connection';
 
-export function getEvents() {
-    const falcor = falcorService();
-    return falcor.getModel(['events','length'])
-    .then((graph) => {
-        const totalEvents = graph.events.length;
-        const numberArray = Array.apply(null, {length: totalEvents}).map(Number.call, Number);
-        return falcor.getModel(['events', numberArray,['name','description','date','office','attendees']])
-        .then((res) => {
-            const events = Object.values(_.omit(res.events, '$__path'));
-            convertDates(events);
-            return events;
-        });
-    });
+export function getEvents(eventUids) {
+  return request('/api/events',{
+    type: 'GET',
+    data: {
+      uids: eventUids
+    }
+  })
+  .then((eventArray) => {
+    return convertDates(eventArray);
+  });
 }
 
 export function createEvent(eventToCreate) {
-    const falcor = falcorService();
-    return falcor.callModel(['events', 'create'], [eventToCreate])
-    .then((res) => {
-        console.log('SUCCESS: ', res);
-    })
-    .catch((err) => {
-        console.error('An error occurred: ', err);
-    });
+  return request('/api/events',{
+    type: 'POST',
+    data: eventToCreate
+  })
+  .then((res) => {
+    console.log('SUCCESS: ', res);
+  })
+  .catch((err) => {
+    console.error('An error occurred: ', err);
+  });
 }
 
 function convertDates(events) {
-    _.each(events, (event) => {
-        event.date = moment(event.date).format('MM/DD/YYYY HH:mm');
-    });
-    return events;
+  _.each(events, (event) => {
+    event.date = moment(event.date).format('MM/DD/YYYY HH:mm');
+  });
+  return events;
 }
