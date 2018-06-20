@@ -1,24 +1,20 @@
 import _ from 'lodash';
 import moment from 'moment';
-import {request} from './connection';
+import {get, post} from './connection';
 
 export function getEvents(eventUids) {
-  return request('/api/events',{
-    type: 'GET',
-    data: {
-      uids: eventUids
-    }
-  })
+  let path = '/api/events';
+  _.forEach(eventUids, (event) => {
+    path += event;
+  });
+  return get(path)
   .then((eventArray) => {
     return convertDates(eventArray);
   });
 }
 
 export function createEvent(eventToCreate) {
-  return request('/api/events',{
-    type: 'POST',
-    data: eventToCreate
-  })
+  return post('/api/events', eventToCreate)
   .then((res) => {
     console.log('SUCCESS: ', res);
   })

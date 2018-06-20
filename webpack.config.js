@@ -1,45 +1,34 @@
 const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const CleanWebpackPlugin = require("clean-webpack-plugin");
+const webpack = require("webpack");
 
-const outputDirectory = "dist";
+const outputDirectory = "/dist";
 
 module.exports = {
-  entry: "./index.js",
-  output: {
-    path: path.join(__dirname, outputDirectory),
-    filename: "bundle.js"
-  },
+  entry: [
+    'react-hot-loader/patch',
+    './src/app/app.jsx'
+  ],
   module: {
     rules: [
       {
-        test: /\.js$/,
-        exclude: [
-          path.resolve(__dirname, "node_modules"),
-          path.resolve(__dirname, "api")
-        ],
-        use: {
-          loader: "babel-loader"
-        }
-      },
-      {
-        test: /\.css$/,
-        use: ["style-loader", "css-loader"]
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: ['babel-loader']
       }
     ]
   },
-  devServer: {
-    port: 3000,
-    open: true,
-    proxy: {
-      "/webpack": "http://localhost:8080"
-    }
+  resolve: {
+    extensions: ['*', '.js', '.jsx']
+  },
+  output: {
+    path: __dirname + outputDirectory,
+    publicPath: '/',
+    filename: 'bundle.js'
   },
   plugins: [
-    new CleanWebpackPlugin([outputDirectory]),
-    new HtmlWebpackPlugin({
-      template: "./www/app/index.html",
-      favicon: "./www/favicon.ico"
-    })
-  ]
+    new webpack.HotModuleReplacementPlugin()
+  ],
+  devServer: {
+    contentBase: './dist'
+  }
 };

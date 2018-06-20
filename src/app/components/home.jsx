@@ -6,7 +6,7 @@ import {getEvents} from '../core/events';
 import Event from './event';
 import EventCreator from './event-create';
 
-export default class Home extends Component { 
+export default class Home extends Component {
 
     constructor(props) {
         super(props);
@@ -52,6 +52,7 @@ export default class Home extends Component {
             paddingTop: '10px',
             paddingLeft: '15px'
         };
+        console.log('RENDERING HOME');
         return (
              <div style={homeStyle}>
                 <h2>Your Office: <b>Charlotte</b></h2>
@@ -59,7 +60,7 @@ export default class Home extends Component {
                 <div className="row">
                     <List style={flexContainer}>
                         {this.state.events.map((event) => (
-                            <Event key={event.id} event={event}/> 
+                            <Event key={event.id} event={event}/>
                         ))}
                     </List>
                     <EventCreator reloadFunction={this.reloadEvents} style={creatorContainer}/>

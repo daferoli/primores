@@ -1,4 +1,10 @@
 'use strict'
+import * as env from 'env-var';
+
+const baseUrl = env.get('API_URL').asString();
+if(!baseUrl) {
+  baseUrl = 'http://localhost:9090';
+}
 
 export function get(path, options = {}) {
   options.type = 'GET';
@@ -24,7 +30,7 @@ export function remove(path, data, options = {}) {
 }
 
 function callWithJsonResponse(path, options) {
-  return fetch(path, setStandardHeaders(options))
+  return fetch(baseUrl + path, setStandardHeaders(options))
   .then((response) => {
     return response.json();
   })

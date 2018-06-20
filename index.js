@@ -23,8 +23,6 @@ app.use('/dist', publicPath);
 app.get('/', function (_, res) { res.sendFile(indexPath) });
 app.use(bodyParser.json());
 
-app.use('/api', require('api/routes/index'));
-
 const CLOUD_PORT = 8000;
 app.listen(CLOUD_PORT, function() {
   console.log('cloud app started on port: ' + CLOUD_PORT);
