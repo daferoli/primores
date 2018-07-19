@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 import List from 'material-ui/List';
 import Paper from 'material-ui/Paper';
-import {getEvents} from '../core/events';
+import {getEventsForOffice} from '../core/events';
 import Event from './event';
 import EventCreator from './event-create';
 
@@ -12,6 +12,7 @@ export default class Home extends Component {
         super(props);
         this.state = {
             edit: false,
+            currentOffice:"Charlotte",
             events: []
         };
         this.reloadEvents = this.reloadEvents.bind(this);
@@ -19,8 +20,11 @@ export default class Home extends Component {
 
     componentDidMount() {
         var self = this;
-        getEvents()
+        console.log('gettingEvents');
+        getEventsForOffice(this.state.currentOffice)
         .then((events) => {
+            console.log('GOT EVENTS:', events);
+
             self.setState({
                 events: events
             });
@@ -29,7 +33,7 @@ export default class Home extends Component {
 
     reloadEvents() {
         var self = this;
-        getEvents()
+        getEventsForOffice(this.state.currentOffice)
         .then((events) => {
             self.setState({
                 events: events
@@ -52,10 +56,9 @@ export default class Home extends Component {
             paddingTop: '10px',
             paddingLeft: '15px'
         };
-        console.log('RENDERING HOME');
         return (
              <div style={homeStyle}>
-                <h2>Your Office: <b>Charlotte</b></h2>
+                <h2>Your Office: <b>{this.state.currentOffice}</b></h2>
                 <h3>Upcoming Events:</h3>
                 <div className="row">
                     <List style={flexContainer}>

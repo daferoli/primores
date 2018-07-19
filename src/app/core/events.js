@@ -2,14 +2,12 @@ import _ from 'lodash';
 import moment from 'moment';
 import {get, post} from './connection';
 
-export function getEvents(eventUids) {
-  let path = '/api/events';
-  _.forEach(eventUids, (event) => {
-    path += event;
-  });
+export function getEventsForOffice(officeName) {
+  let path = '/api/events/office/' + officeName;
   return get(path)
-  .then((eventArray) => {
-    return convertDates(eventArray);
+  .then(convertDates)
+  .catch((err) => {
+    console.error('An error happened', err);
   });
 }
 

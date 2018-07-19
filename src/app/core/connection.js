@@ -1,10 +1,7 @@
 'use strict'
 import * as env from 'env-var';
 
-const baseUrl = env.get('API_URL').asString();
-if(!baseUrl) {
-  baseUrl = 'http://localhost:9090';
-}
+const baseUrl = env.get('API_URL', 'http://localhost:9090').asString();
 
 export function get(path, options = {}) {
   options.type = 'GET';
@@ -13,6 +10,7 @@ export function get(path, options = {}) {
 
 export function post(path, data, options = {}) {
   options.type = 'POST';
+  console.log('no, im actually trying to post');
   options.body = JSON.stringify(data);
   return callWithJsonResponse(path, options);
 }
