@@ -18,6 +18,7 @@ export default class EventCreator extends Component {
                 name: "",
                 description: "",
                 date: "",
+                office: props.office
             },
             isDateValid: true
         };
@@ -25,9 +26,9 @@ export default class EventCreator extends Component {
         this.cancelCreateMode = this.cancelCreateMode.bind(this);
         this.saveCreatedEvent = this.saveCreatedEvent.bind(this);
         this.handleNameChange = this.handleNameChange.bind(this);
-        this.handleDescriptionChange = this.handleDescriptionChange.bind(this);   
+        this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
         this.handleDateChange = this.handleDateChange.bind(this);
-        this.renderDateField = this.renderDateField.bind(this);     
+        this.renderDateField = this.renderDateField.bind(this);
     }
 
     handleNameChange(event) {
@@ -48,15 +49,13 @@ export default class EventCreator extends Component {
 
     handleDateChange(event) {
         var newEvent = this.state.eventToCreate;
-        newEvent.date = event.target.value;        
+        newEvent.date = event.target.value;
         if(moment(event.target.value).isValid()) {
-            console.log('IS VALID');
             this.setState({
                 eventToCreate: newEvent,
                 isDateValid: true
             });
         } else {
-            console.log('NOT VALID');
             this.setState({
                 eventToCreate: newEvent,
                 isDateValid: false
@@ -78,7 +77,6 @@ export default class EventCreator extends Component {
 
     saveCreatedEvent(event) {
         event.preventDefault();
-        console.log(this.state.eventToCreate);
         return createEvent(this.state.eventToCreate)
         .then(() => {
             this.props.reloadFunction();
@@ -110,7 +108,7 @@ export default class EventCreator extends Component {
                     <TextField
                         hintText="Date"
                         floatingLabelText="Date"
-                        errorText="This date format is not valid"                    
+                        errorText="This date format is not valid"
                         onChange={this.handleDateChange}
                     /><br />
                 </div>
@@ -170,7 +168,7 @@ export default class EventCreator extends Component {
                                 </div>
                             </div>
                         </div>
-                    </Paper> 
+                    </Paper>
                 </div>
             );
         } else {
@@ -181,10 +179,10 @@ export default class EventCreator extends Component {
                         <FloatingActionButton mini={true} style={createButtonStyle}>
                             <ContentAdd />
                         </FloatingActionButton>
-                    </Paper> 
-                </div>             
-            ); 
-        }  
-        
+                    </Paper>
+                </div>
+            );
+        }
+
     }
 }

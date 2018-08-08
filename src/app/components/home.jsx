@@ -20,10 +20,8 @@ export default class Home extends Component {
 
     componentDidMount() {
         var self = this;
-        console.log('gettingEvents');
         getEventsForOffice(this.state.currentOffice)
         .then((events) => {
-            console.log('GOT EVENTS:', events);
 
             self.setState({
                 events: events
@@ -66,7 +64,7 @@ export default class Home extends Component {
                             <Event key={event.id} event={event}/>
                         ))}
                     </List>
-                    <EventCreator reloadFunction={this.reloadEvents} style={creatorContainer}/>
+                    <EventCreator reloadFunction={this.reloadEvents} style={creatorContainer} office={this.state.currentOffice}/>
                 </div>
              </div>
         );
