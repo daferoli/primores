@@ -1,10 +1,12 @@
 
 import React, {Component} from 'react';
-import List from 'material-ui/List';
-import Paper from 'material-ui/Paper';
+import List from '@material-ui/core/List';
+import Grid from '@material-ui/core/Grid';
+import { withStyles } from '@material-ui/core/styles';
 import {getEventsForOffice} from '../core/events';
 import Event from './event';
 import EventCreator from './event-create';
+import TopBar from './top-bar';
 
 export default class Home extends Component {
 
@@ -29,7 +31,12 @@ export default class Home extends Component {
         });
     }
 
-    reloadEvents() {
+    reloadEvents(changeOffice) {
+        if(changeOffice) {
+            this.setState({
+                currentOffice: changeOffice
+            });
+        }
         var self = this;
         getEventsForOffice(this.state.currentOffice)
         .then((events) => {
@@ -43,30 +50,36 @@ export default class Home extends Component {
         var flexContainer = {
             display: 'flex',
             flexDirection: 'row',
-            padding: '10px',
-            width: '75%',
+            padding: '5px',
             overflowX:'auto'
         };
-        const creatorContainer = {
+        var creatorContainer = {
             right:0
         };
-        const homeStyle = {
-            paddingTop: '10px',
-            paddingLeft: '15px'
+        var homeStyle = {
+            right: '15px',
         };
         return (
-             <div style={homeStyle}>
-                <h2>Your Office: <b>{this.state.currentOffice}</b></h2>
-                <h3>Upcoming Events:</h3>
-                <div className="row">
-                    <List style={flexContainer}>
-                        {this.state.events.map((event) => (
-                            <Event key={event.id} event={event}/>
-                        ))}
-                    </List>
-                    <EventCreator reloadFunction={this.reloadEvents} style={creatorContainer} office={this.state.currentOffice}/>
+            <div>
+                <TopBar reloadFunction={this.reloadEvents} currentOffice={this.state.currentOffice}/>
+                <h3>Upcoming Local Events:</h3>
+                <div style={homeStyle}>
+                    <Grid container spacing={24}>
+                        <Grid item xs={9}>
+                            <List style={flexContainer}>
+                                {this.state.events.map((event) => {
+                                    console.log(event.uid);
+                                    return <Event key={event.uid} event={event}/>
+                                })}
+                            </List>
+                        </Grid>
+
+                        <Grid item xs={3}>
+                            <EventCreator reloadFunction={this.reloadEvents} style={creatorContainer} office={this.state.currentOffice}/>
+                        </Grid>
+                    </Grid>
                 </div>
-             </div>
+            </div>
         );
     }
 }

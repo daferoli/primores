@@ -1,15 +1,18 @@
 import React, {Component} from 'react';
-import {List, ListItem} from 'material-ui/List';
-import TextField from 'material-ui/TextField';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import RaisedButton from 'material-ui/RaisedButton';
-import ContentAdd from 'material-ui/svg-icons/content/add';
-import Divider from 'material-ui/Divider';
-import Paper from 'material-ui/Paper';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import Grid from '@material-ui/core/Grid';
 import {createEvent} from '../core/events';
 import moment from 'moment';
 
 export default class EventCreator extends Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -94,24 +97,27 @@ export default class EventCreator extends Component {
     renderDateField() {
         if(this.state.isDateValid) {
             return (
-                <div>
+                <Grid item xs={12}>
                     <TextField
-                        hintText="Date"
-                        floatingLabelText="Date"
+                        fullWidth
+                        id="date"
+                        label="Date"
+                        floatinglabeltext="Date"
                         onChange={this.handleDateChange}
-                    /><br />
-                </div>
+                    />
+                </Grid>
             );
         } else {
             return (
-                <div>
+                <Grid item xs={12}>
                     <TextField
-                        hintText="Date"
-                        floatingLabelText="Date"
-                        errorText="This date format is not valid"
+                        fullWidth
+                        error
+                        id="date"
+                        label="Date is not valid"
                         onChange={this.handleDateChange}
-                    /><br />
-                </div>
+                    />
+                </Grid>
             );
         }
     }
@@ -121,65 +127,69 @@ export default class EventCreator extends Component {
             paddingLeft:'25px',
             paddingTop: '15px'
         };
-        const paperStyle = {
+        const cardStyle = {
             width: '300px',
             minHeight: '200px',
             padding: '5px'
         };
-        const createButtonStyle = {
-            marginLeft: '130px'
-        };
         const bStyle = {
-            marginLeft: '80px',
-            marginTop: '50px'
+            paddingLeft: '65px'
         };
         const buttonSpace = {
-            paddingLeft: '25px'
+            paddingLeft: '65px'
         };
         if (this.state.createMode){
             return (
                 <div style={topStyle}>
-                    <Paper zDepth={3} style={paperStyle}>
-                        <div>
-                            <TextField
-                                hintText="Name"
-                                floatingLabelText="Name"
-                                onChange={this.handleNameChange}
-                            /><br />
+                    <Card style={cardStyle}>
+                        <Grid container spacing={24}>
+                            <Grid item xs={12}>
+                                <TextField
+                                    fullWidth
+                                    id="eventName"
+                                    label="Name"
+                                    onChange={this.handleNameChange}
+                                />
+                            </Grid>
                             {this.renderDateField()}
-                            <TextField
-                                hintText="Description"
-                                floatingLabelText="Description"
-                                multiLine={true}
-                                rows={2}
-                                rowsMax={4}
-                                onChange={this.handleDescriptionChange}
-                            /><br />
-                            <div className="row">
-                                <div style={buttonSpace}>
-                                    <RaisedButton primary={true} onClick={this.saveCreatedEvent}>
-                                        Save
-                                    </RaisedButton>
-                                </div>
-                                <div style={buttonSpace}>
-                                    <RaisedButton secondary={true} onClick={this.cancelCreateMode}>
-                                        cancel
-                                    </RaisedButton>
-                                </div>
-                            </div>
-                        </div>
-                    </Paper>
+                            <Grid item xs={12}>
+                                <TextField
+                                    fullWidth
+                                    id="eventId"
+                                    label="Description"
+                                    multiline={true}
+                                    rows={2}
+                                    rowsMax={4}
+                                    onChange={this.handleDescriptionChange}
+                                />
+                            </Grid>
+                            <Grid item xs={4}>
+                                <Button variant='raised' color="primary" onClick={this.saveCreatedEvent}>
+                                    Save
+                                </Button>
+                            </Grid>
+                            <Grid item xs={4} >
+                                <Button variant='raised' color="secondary" onClick={this.cancelCreateMode}>
+                                    Cancel
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </Card>
                 </div>
             );
         } else {
             return (
                 <div style={topStyle}>
-                    <Paper zDepth={3} style={paperStyle} onClick={this.initiateCreateMode}>
-                        <b className="col-xs-1" style={bStyle}>Create new Event</b> <br />
-                        <FloatingActionButton mini={true} style={createButtonStyle}>
-                            <ContentAdd />
-                        </FloatingActionButton>
-                    </Paper>
+                    <Card style={cardStyle} onClick={this.initiateCreateMode}>
+                        <CardContent>
+                            <b style={bStyle}>Create New Event</b>
+                        </CardContent>
+                        <CardActions style={{justifyContent: 'center'}}>
+                            <Button variant='fab' mini={true} >
+                                <AddIcon />
+                            </Button>
+                        </CardActions>
+                    </Card>
                 </div>
             );
         }
