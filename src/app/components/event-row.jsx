@@ -15,7 +15,7 @@ export default class EventRow extends Component {
             currentLocation: props.location,
             events:[]
         }
-        this.reloadEvents = this.reloadEvents.bind(this);
+        this.reloadEvents();
     }
 
     componentDidMount() {
@@ -28,7 +28,20 @@ export default class EventRow extends Component {
         });
     }
 
-    reloadEvents() {
+    componentDidUpdate(prevProps) {
+        if(this.props.location !== prevProps.location) {
+            var self = this;
+            getEventsForLocation(this.props.location)
+            .then((events) => {
+                self.setState({
+                    currentLocation: this.props.location,
+                    events: events
+                });
+            });
+        }
+    }
+
+    reloadEvents = () => {
         var self = this;
         getEventsForLocation(this.state.currentLocation)
         .then((events) => {
