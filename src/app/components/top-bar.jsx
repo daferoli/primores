@@ -31,7 +31,7 @@ class TopBar extends Component {
     }
 
     handleOfficeChange(event) {
-
+        //Signal to parent that office has changed
     }
 
     render(){

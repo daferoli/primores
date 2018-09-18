@@ -2,8 +2,8 @@ import _ from 'lodash';
 import moment from 'moment';
 import {get, post} from './connection';
 
-export function getEventsForOffice(officeName) {
-  let path = '/api/events/office/' + officeName;
+export function getEventsForLocation(locationName) {
+  let path = '/api/events/location/' + locationName;
   return get(path)
   .then(convertDates)
   .catch((err) => {

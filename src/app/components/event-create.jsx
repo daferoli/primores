@@ -21,7 +21,7 @@ export default class EventCreator extends Component {
                 name: "",
                 description: "",
                 date: "",
-                office: props.office
+                location: props.location
             },
             isDateValid: true
         };
@@ -80,6 +80,7 @@ export default class EventCreator extends Component {
 
     saveCreatedEvent(event) {
         event.preventDefault();
+        this.state.eventToCreate.date = moment(this.state.eventToCreate.date).toISOString();
         return createEvent(this.state.eventToCreate)
         .then(() => {
             this.props.reloadFunction();
