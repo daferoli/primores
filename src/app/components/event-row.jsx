@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Event from './event';
 import EventCreator from './event-create';
 import {getEventsForLocation} from '../core/events';
+import _ from 'lodash';
 
 
 
@@ -51,6 +52,22 @@ export default class EventRow extends Component {
         });
     }
 
+    userIsLead = () => {
+        return this.props.user && _.find(this.props.user.activeLocations, (location) => {
+            return location.name === this.state.currentLocation && location.status === 'lead'
+        })
+    }
+
+    renderEventCreator = () => {
+        if(this.userIsLead()) {
+            return (
+                <Grid item xs={3}>
+                    <EventCreator reloadFunction={this.reloadEvents} location={this.state.currentLocation}/>
+                </Grid>
+            );
+        }
+    }
+
     render(){
         var flexContainer = {
             display: 'flex',
@@ -58,20 +75,19 @@ export default class EventRow extends Component {
             padding: '5px',
             overflowX:'auto'
         };
+        // if the user cannot create an event, we want the list to take the full width
+        var listSpacing = this.userIsLead() ? 9 : 12;
         return (
             <div>
                 <Grid container spacing={24}>
-                    <Grid item xs={9}>
+                    <Grid item xs={listSpacing}>
                         <List style={flexContainer}>
                             {this.state.events.map((event) => {
                                 return <Event key={event.uid} event={event}/>
                             })}
                         </List>
                     </Grid>
-
-                    <Grid item xs={3}>
-                        <EventCreator reloadFunction={this.reloadEvents} location={this.state.currentLocation}/>
-                    </Grid>
+                    {this.renderEventCreator()}
                 </Grid>
             </div>
         );

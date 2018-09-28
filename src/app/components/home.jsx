@@ -68,18 +68,14 @@ export default class Home extends Component {
         var homeStyle = {
             right: '15px',
         };
-        console.log('Doin a render: ');
-        if(this.state.user) {
-            console.log(this.state.user.name);
-        }
         return (
             <div>
                 <TopBar currentOffice={this.state.currentOffice} user={this.state.user} reloadFunction={this.changeOffice} userLoggedIn={this.tryGetUserInfo} userLoggedOut={this.clearUserData}/>
                 <div style={homeStyle}>
                     <h3>Upcoming Local Events:</h3>
-                    <EventRow location={this.state.currentOffice}/>
+                    <EventRow location={this.state.currentOffice} user={this.state.user}/>
                     <h3>Upcoming Regional Events:</h3>
-                    <EventRow location={this.state.currentRegion}/>
+                    <EventRow location={this.state.currentRegion} user={this.state.user}/>
                 </div>
             </div>
         );
