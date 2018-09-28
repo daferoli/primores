@@ -177,7 +177,7 @@ export default class EventCreator extends Component {
                         </Grid>
                     </Card>
                 </div>
-            );
+            );//TODO: Change buttons to <CardActions>
         } else {
             return (
                 <div style={topStyle}>
