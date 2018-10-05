@@ -75,15 +75,18 @@ export default class EventRow extends Component {
             padding: '5px',
             overflowX:'auto'
         };
+        var baseStyle = {
+            'minHeight': '300px'
+        };
         // if the user cannot create an event, we want the list to take the full width
         var listSpacing = this.userIsLead() ? 9 : 12;
         return (
-            <div>
+            <div style={baseStyle}>
                 <Grid container spacing={24}>
                     <Grid item xs={listSpacing}>
                         <List style={flexContainer}>
                             {this.state.events.map((event) => {
-                                return <Event key={event.uid} event={event}/>
+                                return <Event key={event.uid} event={event} user={this.props.user}/>
                             })}
                         </List>
                     </Grid>

@@ -30,7 +30,12 @@ export function remove(path, data, options = {}) {
 function callWithJsonResponse(path, options) {
 
     return fetch(baseUrl + path, setStandardHeaders(options))
-    .then((response) => response.json())
+    .then((response) => {
+        if(response.status >= 400) {
+            throw new Error(response.status +' status received for path: ' + path);
+        }
+        return response.json();
+    })
     .catch((err) => {
         console.error('There was an error trying to call path: ' + path + "\nerror: " + err);
         throw(err);

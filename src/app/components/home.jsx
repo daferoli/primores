@@ -19,7 +19,6 @@ export default class Home extends Component {
     componentDidMount() {
         this.tryGetUserInfo()
         .then((changedState) => {
-            console.log('what happens if I try that here? ');
             this.setState(changedState);
         });
     }
@@ -50,7 +49,6 @@ export default class Home extends Component {
                 }
             }
             self.setState(changedState);
-            console.log('Set user Infomation');
             return changedState
         });
     }
@@ -59,7 +57,7 @@ export default class Home extends Component {
         //Reset to defaults
         this.setState({
             user: null,
-            ccurrentOffice: "Charlotte",
+            currentOffice: "Charlotte",
             currentRegion: "SouthEast"
         })
     }
@@ -72,9 +70,9 @@ export default class Home extends Component {
             <div>
                 <TopBar currentOffice={this.state.currentOffice} user={this.state.user} reloadFunction={this.changeOffice} userLoggedIn={this.tryGetUserInfo} userLoggedOut={this.clearUserData}/>
                 <div style={homeStyle}>
-                    <h3>Upcoming Local Events:</h3>
+                    <h3>Upcoming {this.state.currentOffice} Events:</h3>
                     <EventRow location={this.state.currentOffice} user={this.state.user}/>
-                    <h3>Upcoming Regional Events:</h3>
+                    <h3>Upcoming {this.state.currentRegion} Events:</h3>
                     <EventRow location={this.state.currentRegion} user={this.state.user}/>
                 </div>
             </div>

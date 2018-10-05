@@ -11,6 +11,8 @@ export function getUserData()
     } else {
         return get('/api/users/me')
         .catch(() => {
+            //Token probably timed out. Remove it so they can log in again
+            localStorage.removeItem('accessToken');
             return;
         });
     }
