@@ -37,7 +37,9 @@ export default class LoginDialog extends React.Component {
                 this.props.onClose(loginStatus.loggedInUser);
             } else {
                 this.setState({
-                    errorMessage: 'Login Failed'
+                    formData:{
+                        errorMessage: 'Login Failed'
+                    }
                 });
             }
         });
@@ -138,14 +140,14 @@ export default class LoginDialog extends React.Component {
                         onChange={this.handlePasswordChange}
                     />
                     {this.renderPasswordConfirmation()}
-                    {this.state.errorMessage}
+                    {this.state.formData.errorMessage}
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={this.handleLogin} color="primary">
-                    {this.state.action === 'Login' ? 'Login' : 'Signup'}
+                        {this.state.action === 'Login' ? 'Login' : 'Signup'}
                     </Button>
                     <Button onClick={this.switchAction} color="primary">
-                    {this.state.action === 'Login' ? 'Signup Instead' : 'Login Instead'}
+                        {this.state.action === 'Login' ? 'Signup Instead' : 'Login Instead'}
                     </Button>
                 </DialogActions>
             </Dialog>
