@@ -42,6 +42,17 @@ export default class EventRow extends Component {
         }
     }
 
+    //NOTE: For now we will only update attendees. When event updating is added, we will need to loop over the updated fields
+    updateEventInfo = (updatedEvent) => {
+        const currentEvents = this.state.events;
+        const existingEvent = _.find(currentEvents, {uid: updatedEvent.uid});
+        existingEvent.attendees = updatedEvent.attendees;
+
+        this.setState({
+            events: currentEvents
+        });
+    }
+
     reloadEvents = () => {
         var self = this;
         getEventsForLocation(this.state.currentLocation)
@@ -54,7 +65,7 @@ export default class EventRow extends Component {
 
     userIsLead = () => {
         return this.props.user && _.find(this.props.user.activeLocations, (location) => {
-            return location.name === this.state.currentLocation && location.status === 'lead'
+            return location.name === this.state.currentLocation && location.status === 'lead';
         })
     }
 
@@ -86,7 +97,7 @@ export default class EventRow extends Component {
                     <Grid item xs={listSpacing}>
                         <List style={flexContainer}>
                             {this.state.events.map((event) => {
-                                return <Event key={event.uid} event={event} user={this.props.user}/>
+                                return <Event key={event.uid} event={event} user={this.props.user} notifyUpdate={this.updateEventInfo}/>
                             })}
                         </List>
                     </Grid>

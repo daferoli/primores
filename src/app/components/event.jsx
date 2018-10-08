@@ -7,6 +7,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
 
+import {modifyEventAttendees} from '../core/events'
 
 export default class Event extends Component {
 
@@ -18,7 +19,7 @@ export default class Event extends Component {
         if(!this.props.user) {
             return false;
         }
-        return Boolean(_.find(this.props.event.attendees, { uid: this.props.user.uid }));
+        return Boolean(_.find(this.props.event.attendees, { userUid: this.props.user.uid }));
     }
 
     canUserSignUp = () => {
@@ -32,12 +33,29 @@ export default class Event extends Component {
     }
 
     addAttendance = () => {
-
-        console.log('TODO');
+        return modifyEventAttendees(this.props.event.uid, 'add', {
+            userUid: this.props.user.uid,
+            email: this.props.user.email
+        })
+        .then((updatedAttendees) => {
+            this.props.notifyUpdate({
+                uid: this.props.event.uid,
+                attendees: updatedAttendees
+            });
+        });
     }
 
     removeAttendance = () => {
-        console.log('TODO');
+        return modifyEventAttendees(this.props.event.uid, 'remove', {
+            userUid: this.props.user.uid,
+            email: this.props.user.email
+        })
+        .then((updatedAttendees) => {
+            this.props.notifyUpdate({
+                uid: this.props.event.uid,
+                attendees: updatedAttendees
+            });
+        });
     }
 
     showAttendanceButton = () => {
@@ -58,6 +76,7 @@ export default class Event extends Component {
         }
         // else show no button.
     }
+
     render() {
         const topStyle = {
             paddingRight:'25px'
@@ -81,8 +100,8 @@ export default class Event extends Component {
                             <Divider inset={true} />
                             <h3>Attendees</h3>
                             <List>
-                                {this.props.event.attendees && this.props.event.attendees.size > 0 ? this.props.event.attendees.map((attendee) =>
-                                    <ListItem key={attendee.uid} primarytext={attendee.name}/>
+                                {this.props.event.attendees && this.props.event.attendees.length > 0 ? this.props.event.attendees.map((attendee) =>
+                                    <ListItem key={this.props.event.uid + '_' + attendee.userUid}>{attendee.email}</ListItem>
                                 ): <ListItem key="0">No one has signed up yet</ListItem>}
                             </List>
                         </CardContent>
